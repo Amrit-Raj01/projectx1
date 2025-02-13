@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alphabet Puzzle Game</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <div id="puzzle-container"></div>
-    <div id="score">Stars: 0</div>
-    <div id="message"></div>
-  </div>
-  <script src="script.js"></script>
+    <div class="container">
+        <h1>Puzzle Game</h1>
+        <div class="levels">
+            <button id="beginner">Beginner</button>
+            <button id="medium">Medium</button>
+            <button id="high">High</button>
+        </div>
+        <div id="game" class="hidden">
+            <p id="scrambled-word"></p>
+            <input type="text" id="user-input" placeholder="Type your answer">
+            <button id="submit-btn">Submit</button>
+            <p id="result"></p>
+        </div>
+    </div>
+    <canvas id="background"></canvas>
+    <script src="script.js"></script>
 </body>
 </html>
