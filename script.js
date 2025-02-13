@@ -23,7 +23,7 @@ const mediumBtn = document.getElementById("medium");
 const highBtn = document.getElementById("high");
 const gameDiv = document.getElementById("game");
 const scrambledWordEl = document.getElementById("scrambled-word");
-const userInput = document.getElementById("user-input");
+const lettersContainer = document.getElementById("letters-container");
 const submitBtn = document.getElementById("submit-btn");
 const resultEl = document.getElementById("result");
 
@@ -38,10 +38,10 @@ function startGame(level) {
     currentLevel = level;
     currentWord = levels[level][Math.floor(Math.random() * levels[level].length)];
     scrambledWord = scrambleWord(currentWord);
-    scrambledWordEl.textContent = `Scrambled: ${scrambledWord}`;
+    scrambledWordEl.textContent = `Unscramble the word: ${scrambledWord}`;
+    renderLetters(scrambledWord);
     gameDiv.classList.remove("hidden");
     resultEl.textContent = "";
-    userInput.value = "";
 }
 
 // Scramble Word
@@ -49,9 +49,53 @@ function scrambleWord(word) {
     return word.split("").sort(() => Math.random() - 0.5).join("");
 }
 
+// Render Letters
+function renderLetters(word) {
+    lettersContainer.innerHTML = "";
+    word.split("").forEach((letter, index) => {
+        const letterDiv = document.createElement("div");
+        letterDiv.className = "letter";
+        letterDiv.textContent = letter;
+        letterDiv.draggable = true;
+        letterDiv.addEventListener("dragstart", dragStart);
+        letterDiv.addEventListener("dragover", dragOver);
+        letterDiv.addEventListener("drop", drop);
+        lettersContainer.appendChild(letterDiv);
+    });
+}
+
+// Drag and Drop Functions
+let draggedLetter = null;
+
+function dragStart(e) {
+    draggedLetter = e.target;
+    setTimeout(() => e.target.classList.add("hidden"), 0);
+}
+
+function dragOver(e) {
+    e.preventDefault();
+}
+
+function drop(e) {
+    e.preventDefault();
+    if (e.target.classList.contains("letter")) {
+        const parent = lettersContainer;
+        const draggedIndex = Array.from(parent.children).indexOf(draggedLetter);
+        const targetIndex = Array.from(parent.children).indexOf(e.target);
+        if (draggedIndex < targetIndex) {
+            parent.insertBefore(draggedLetter, e.target.nextSibling);
+        } else {
+            parent.insertBefore(draggedLetter, e.target);
+        }
+    }
+    draggedLetter.classList.remove("hidden");
+}
+
 // Check Answer
 function checkAnswer() {
-    const userAnswer = userInput.value.trim().toUpperCase();
+    const userAnswer = Array.from(lettersContainer.children)
+        .map(letter => letter.textContent)
+        .join("");
     if (userAnswer === currentWord) {
         resultEl.textContent = "Correct! 🎉";
         drawStar();
