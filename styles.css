@@ -1,17 +1,83 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: black;
+  background-color: pink;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
-canvas {
-    border: 2px solid white;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+}
+
+#puzzle-container {
+  display: grid;
+  grid-template-columns: repeat(5, 60px);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.letter {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 2px solid #000;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: grab;
+  user-select: none;
+}
+
+.letter.dragging {
+  opacity: 0.5;
+}
+
+#score {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+#message {
+  font-size: 20px;
+  color: green;
+}
+
+@keyframes slideLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100vw); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100vh); }
+}
+
+.slide-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: slideLeft 10s linear infinite;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.slide-down {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: slideDown 8s linear infinite;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.3);
 }
